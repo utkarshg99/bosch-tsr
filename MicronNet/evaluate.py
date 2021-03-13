@@ -17,7 +17,7 @@ parser.add_argument('--data', type=str, default='Dataset', metavar='D',
                     help="folder where data is located. train_data.zip and test_data.zip need to be found in the folder")
 parser.add_argument('--model', type=str, metavar='M',
                     help="the model file to be evaluated. Usually it is of the form model_X.pth")
-parser.add_argument('--outfile', type=str, default='gtsrb_kaggle.csv', metavar='D',
+parser.add_argument('--outfile', type=str, default='gtsrb_kaggledash.csv', metavar='D',
                     help="name of the output csv file")
 
 args = parser.parse_args()
@@ -32,7 +32,6 @@ from data import data_transforms
 test_dir = args.data + '/test_images'
 
 def pil_loader(path):
-    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
     with open(path, 'rb') as f:
         with Image.open(f) as img:
             return img.convert('RGB')
@@ -46,6 +45,7 @@ for f in tqdm(os.listdir(test_dir)):
         data = data.view(1, data.size(0), data.size(1), data.size(2))
         data = Variable(data, volatile=True)
         output = model(data)
+        print(output)
         pred = output.data.max(1, keepdim=True)[1]
 
         file_id = f[0:5]
@@ -53,8 +53,4 @@ for f in tqdm(os.listdir(test_dir)):
 
 output_file.close()
 
-print("Succesfully wrote " + args.outfile + ', you can upload this file to the kaggle '
-      'competition at https://www.kaggle.com/c/nyu-cv-fall-2018/')
-        
-
-
+print("Succesfully wrote " + args.outfile)

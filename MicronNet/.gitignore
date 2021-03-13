@@ -1,0 +1,6 @@
+Dataset/
+DatasetAug/
+.ipynb_checkpoints/
+__pycache__/
+
+*.pth
