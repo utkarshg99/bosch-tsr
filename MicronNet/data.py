@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 import albumentations as A
 import cv2
 from albumentations.pytorch import ToTensorV2
+import numpy as np
 
 # once the images are loaded, how do we pre-process them before being passed into the network
 # by default, we resize the images to 32 x 32 in size
@@ -41,12 +42,21 @@ data_transforms = A.Compose([
 
 
 def initialize_data(folder):
+    nclasses = 48
     train_folder = folder + '/train_images'
     test_folder = folder + '/test_images'
 
+    totImgs = np.zeros(nclasses)
+
+    for i in range(nclasses):
+        fldr=("/0000" if i<10 else "/000")+str(i)
+        for path in os.listdir(train_folder+fldr):
+            full_path = os.path.join(train_folder+fldr, path)
+            if os.path.isfile(full_path) and not full_path.endswith(".csv"):
+                totImgs[i]+=1
+
     # make validation_data by using images 00000*, 00001* and 00002* in each class
     val_folder = folder + '/val_images'
-    print(val_folder)
     if not os.path.isdir(val_folder):
         print(val_folder + ' not found, making a validation set')
         os.mkdir(val_folder)
@@ -54,5 +64,7 @@ def initialize_data(folder):
             if dirs.startswith('000'):
                 os.mkdir(val_folder + '/' + dirs)
                 for f in os.listdir(train_folder + '/' + dirs):
-                    if f.startswith('00000') or f.startswith('00001') or f.startswith('00002'):
+                    fdash = int(f[0:len(f)-4])
+                    if fdash<totImgs[int(dirs)]/10:
+                    # if f.startswith('00000') or f.startswith('00001') or f.startswith('00002'):
                         os.rename(train_folder + '/' + dirs + '/' + f, val_folder + '/' + dirs + '/' + f)

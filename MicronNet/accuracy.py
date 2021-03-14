@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-classes = 43
+classes = 48
 
-data = pd.read_csv("albu.csv", dtype={"ClassId": int, "ClassIdActual": int})
+data = pd.read_csv("explored.csv", dtype={"ClassId": int, "ClassIdActual": int})
 df = pd.DataFrame(data, columns=['ClassId', 'ClassIdActual'])
 
 pred = df['ClassId']
@@ -31,7 +31,7 @@ s2 = np.sum(conf, 1) # row
 for i in range(classes):
     pres[i] = conf[i][i]/s2[i]
     reca[i] = conf[i][i]/s1[i]
-    f1[i] = 2*pres[i]*reca[i]/(pres[i]+reca[i])
+    f1[i] = 2*pres[i]*reca[i]/(pres[i]+reca[i]) if pres[i]+reca[i] != 0 else 0
     print("Class: {} F1: {}".format(i+1, f1[i]))
 
 print("Accuracy: {}, Correct: {}, Wrong: {}".format(100.0*corr/(corr+wrng), corr, wrng))
