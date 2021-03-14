@@ -20,7 +20,7 @@ from albumentations.pytorch import ToTensorV2
 #     transforms.ToTensor(),
 #     transforms.Normalize((0.3337, 0.3064, 0.3171), ( 0.2672, 0.2564, 0.2629))
 # ])
-
+test_data_transforms = A.Compose([A.Resize(48, 48),ToTensorV2()], p=1.0)
 
 data_transforms = A.Compose([
     A.Resize(48, 48),

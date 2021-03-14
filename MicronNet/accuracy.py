@@ -3,7 +3,7 @@ import numpy as np
 
 classes = 43
 
-data = pd.read_csv("gtsrb_kaggle.csv", dtype={"ClassId": int, "ClassIdActual": int})
+data = pd.read_csv("albu.csv", dtype={"ClassId": int, "ClassIdActual": int})
 df = pd.DataFrame(data, columns=['ClassId', 'ClassIdActual'])
 
 pred = df['ClassId']
