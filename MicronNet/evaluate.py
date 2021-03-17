@@ -13,11 +13,11 @@ from data import initialize_data # data.py in the same folder
 from model import Net
 
 parser = argparse.ArgumentParser(description='PyTorch GTSRB evaluation script')
-parser.add_argument('--data', type=str, default='Dataset', metavar='D',
+parser.add_argument('--data', type=str, default='ExplData', metavar='D',
                     help="folder where data is located. train_data.zip and test_data.zip need to be found in the folder")
 parser.add_argument('--model', type=str, metavar='M',
                     help="the model file to be evaluated. Usually it is of the form model_X.pth")
-parser.add_argument('--outfile', type=str, default='gtsrb_kaggledash.csv', metavar='D',
+parser.add_argument('--outfile', type=str, default='new_explore.csv', metavar='D',
                     help="name of the output csv file")
 
 args = parser.parse_args()
@@ -29,7 +29,7 @@ model.eval()
 
 from data import test_data_transforms
 
-test_dir = args.data + '/test_images'
+test_dir = args.data
 
 def pil_loader(path):
     with open(path, 'rb') as f:
@@ -49,7 +49,7 @@ for f in tqdm(os.listdir(test_dir)):
         data = Variable(data)
         output = model(data)
         pred = output.data.max(1, keepdim=True)[1]
-
+        print(np.exp(output.detach().numpy()))
         file_id = f[0:5]
         output_file.write("%s,%d\n" % (file_id, pred))
 
