@@ -28,11 +28,11 @@ data_transforms = A.Compose([
     A.Compose([
         A.OneOf([A.MotionBlur(p=0.1), A.GaussianBlur(p=0.1), A.MedianBlur(p=0.1)], p=0.2),
         A.OneOf([A.GaussNoise(p=0.1), A.ISONoise(p=0.1), A.MultiplicativeNoise(p=0.1)], p=0.2),
-        A.OneOf([A.ColorJitter(p=0.1), A.HueSaturationValue(p=0.1), A.ChannelShuffle(p=0.1), A.RandomBrightnessContrast(p=0.1)], p=0.1),
+        A.OneOf([A.ColorJitter(p=0.1), A.HueSaturationValue(p=0.1), A.RandomBrightnessContrast(p=0.1)], p=0.1),
         # A.OneOf([A.RandomFog(p=0.1), A.RandomRain(p=0.1),
         #     # RandomShadow(p=0.1),
         #     A.RandomSnow(p=0.1), A.RandomSunFlare(p=0.1)], p=0.2),
-        A.OneOf([A.CoarseDropout(p=0.1), A.Cutout(p=0.1), A.GridDropout(p=0.1)], p=0.1),
+        A.OneOf([A.CoarseDropout(p=0.1), A.Cutout(p=0.1)], p=0.1),
         A.OneOf([A.GridDistortion(p=0.1), A.OpticalDistortion(p=0.1)], p=0.1),
         A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.2, rotate_limit=20, p=0.2, border_mode=cv2.BORDER_REPLICATE),
         # A.Normalize(mean=[0.3337, 0.3064, 0.3171], std=[0.2672, 0.2564, 0.2629]),

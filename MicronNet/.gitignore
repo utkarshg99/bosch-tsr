@@ -3,5 +3,6 @@ DatasetAug/
 .ipynb_checkpoints/
 __pycache__/
 ExplData/
+DatasetDiff/
 
 *.pth
