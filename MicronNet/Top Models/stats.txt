@@ -1,0 +1,29 @@
+Name:		Base48/model_136.pth
+Trained on:	DatasetAug
+Tested on:	DatasetDiff
+Acc:		93.16618254089589
+f1:		0.9049518299628024
+
+Name:		Base48/model_136.pth
+Trained on:	DatasetAug
+Tested on:	DatasetAug
+Acc:		97.39336492890995
+f1:		0.9539442338348384
+
+Name:		Diff48/model_136.pth
+Trained on:	DatasetDiff
+Tested on:	DatasetDiff
+Acc:		95.32181623604953
+f1:		0.931468304449789
+
+Name:		Aug48/model_83.pth
+Trained on:	DatasetAug + Transforms in Model
+Tested on:	DatasetDiff
+Acc:		97.11817764867757
+f1:		0.9569578795318406
+
+Name:		Aug48/model_83.pth
+Trained on:	DatasetAug + Transforms in Model
+Tested on:	DatasetAug
+Acc:		98.70050451001376
+f1:		0.9763869388287736

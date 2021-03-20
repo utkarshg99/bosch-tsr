@@ -33,8 +33,8 @@ def pil_loader(path):
         with Image.open(f) as img:
             return img.convert('RGB')
 
-# os.mkdir(final_train)
-# os.mkdir(final_val)
+os.mkdir(final_train)
+os.mkdir(final_val)
 os.mkdir(final_test)
 
 def transfer(basetr, transtr): 
@@ -50,8 +50,8 @@ def transfer(basetr, transtr):
                 if cv2.imwrite(os.path.join(transtr+fldr, path), data):
                     print(full_path)
 
-# transfer(init_train, final_train)
-# transfer(init_val, final_val)
+transfer(init_train, final_train)
+transfer(init_val, final_val)
 
 for path in os.listdir(init_test):
     full_path = os.path.join(init_test, path)

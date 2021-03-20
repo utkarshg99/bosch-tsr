@@ -13,11 +13,11 @@ from data import initialize_data # data.py in the same folder
 from model import Net
 
 parser = argparse.ArgumentParser(description='PyTorch GTSRB evaluation script')
-parser.add_argument('--data', type=str, default='DatasetAug', metavar='D',
+parser.add_argument('--data', type=str, default='DatasetDiff', metavar='D',
                     help="folder where data is located. train_data.zip and test_data.zip need to be found in the folder")
 parser.add_argument('--model', type=str, metavar='M',
                     help="the model file to be evaluated. Usually it is of the form model_X.pth")
-parser.add_argument('--outfile', type=str, default='explored.csv', metavar='D',
+parser.add_argument('--outfile', type=str, default='output.csv', metavar='D',
                     help="name of the output csv file")
 
 args = parser.parse_args()
