@@ -1,3 +1,4 @@
 dataset.tar.gz filter=lfs diff=lfs merge=lfs -text
 datasetaug.tar.gz filter=lfs diff=lfs merge=lfs -text
 datasetdiff.tar.gz filter=lfs diff=lfs merge=lfs -text
+datasettesting.tar.gz filter=lfs diff=lfs merge=lfs -text

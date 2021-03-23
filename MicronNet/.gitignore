@@ -4,5 +4,8 @@ DatasetAug/
 __pycache__/
 ExplData/
 DatasetDiff/
+.vscode/
+DatasetDiff2/
+DatasetTesting/
 
 *.pth

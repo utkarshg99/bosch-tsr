@@ -50,11 +50,11 @@ def execute(classes=48, filename="output.csv"):
         bert[i] = 1-bcrt[i]
         matc[i] = (conf[i][i]*(corr-conf[i][i]) - (s2[i]-conf[i][i])*(s1[i]-conf[i][i]))/math.sqrt((s2[i])*(s1[i])*(corr+s2[i]-2*conf[i][i])*(corr+s1[i]-2*conf[i][i]))
         f1[i] = 2*prec[i]*reca[i]/(prec[i]+reca[i]) if prec[i]+reca[i] != 0 else 0
+        if math.isnan(f1[i]): f1[i]=0
         print("Class: {} F1: {}".format(i, f1[i]))
 
     print("Accuracy: {}, Correct: {}, Wrong: {}".format(100.0*corr/(corr+wrng), corr, wrng))
     print("Macro F1: {}".format(np.mean(f1)))
-
     res_dict = {
         "prec": prec.tolist(),
         "reca": reca.tolist(),
