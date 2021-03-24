@@ -125,3 +125,7 @@ http://localhost:8080/
 | 20 	| Vanilla43  	| model_193.pth 	| Dataset                          	| DatasetTesting 	|  88.282  	|   0.777  	|
 
 <br/>
+
+# Experiments and Evaluation
+
+* We start with ```dataset.tar.gz``` and obtain benchmark scores. [Row 19]
