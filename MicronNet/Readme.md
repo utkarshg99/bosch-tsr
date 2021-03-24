@@ -129,3 +129,4 @@ http://localhost:8080/
 # Experiments and Evaluation
 
 * We start with ```dataset.tar.gz``` and obtain benchmark scores. [Row 19]
+* After literature survey, we added 5 classes from TSRD dataset. 
