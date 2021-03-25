@@ -10,4 +10,5 @@ DatasetTesting/
 
 # *.pth
 datasetdiff.tar.gz
+datasetultradiff.tar.gz
 Datasetgan

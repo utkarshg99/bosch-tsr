@@ -1,6 +1,13 @@
-# Installation guide for the UI
+# Live Deployment of the UI is present at: https://boschtsr.ml/
 
-The documentation assumes that the user has python3 installed and python scripts can be excuted by running ```python3 /path/to/script/```
+<br/>
+
+# Guide to run the UI locally
+
+The documentation assumes that the following:
+* User has python3.8 installed and python scripts can be excuted by running ```python3 /path/to/script/```
+* The pip is of the lastest version
+* CUDA is set up properly (if gpu is to be used)
 
 Intall Node.JS using binaries for Ubuntu from:
 
@@ -14,31 +21,116 @@ curl -fsSL https://deb.nodesource.com/setup_15.x | bash -
 apt-get install -y nodejs
 ```
 
-Clone the Repository using [Skip this step if you already have the Repositories]:
+Install Redis:
 ```
-git clone /url/of/the/repo
-git clone /url/of/the/repo
+sudo apt install redis-server
 ```
 
-Install python dependencies by running (in the ```Backend``` folder):
+Install MongoDB:
+
 ```
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl start mongod
+sudo systemctl enable mongod
+```
+
+Install python dependencies by running (in the ```interiit-backend``` folder):
+```
+sudo apt-get install python3.8-dev
+python3 -m pip install -U pip 
 python3 -m pip install -r requirements.txt
 ```
 
-Install node dependencies by running (in the ```Frontend``` folder):
+Run the backend server by running (in the ```interiit-backend``` folder):
 ```
-npm install
-```
-
-Run the backend server by running (in the ```Backend``` folder):
-```
-flask run
+./start.sh
 ```
 
 Now navigate to:
 ```
-http://localhost:8080/
+http://localhost:5000/
 ```
+
+<br/>
+
+# UI Features and Guide
+
+## There are following datasets available in the UI:
+* <b>Main Dataset</b> : Comprises of all images from ```DatasetTesting``` and the images added using the UI
+* <b>GTSRB Dataset</b> : Vanilla GTSRB Dataset
+* <b>GTSRB_48 Dataset</b> : ```DatasetAug```
+* <b>Difficult Dataset</b> : ```DatasetTesting```
+
+## The UI is divided into 7 segments which are as follows:
+
+### 1. Explore Dataset:
+
+* Used to visualise the entire dataset
+* Can see multiple images of the classes at once, similar to File Explorer
+
+### 2. Add New Classes:
+
+* Used to add new classes
+* Adds new label to the set of existing ones
+
+### 3. Add New Images to Dataset:
+
+* Used to add new images to existing classes
+* While adding, the user has the ability to select one or more (combine and permute) of the following augmentations, and generate more images:
+    + Brightness & Contrast
+    + Shift & Rotate
+    + Blur (Gaussian, Median and Motion) & Optical Distortion
+    + Noise (ISO, Gaussian and Multiplicative)
+    + Hue, Saturation & Color Jitter
+    + Dropout & Cutout
+    + Affine & Perspective Transforms
+* The user has the ability to either add the selected images to test set or use smart segregation to split the train set into train and validation set. Smart segregation is done using the model's output upto the second last layer as feature vector to the input images, followed by clustering and then splitting each of the cluster's into the ratio specified by the user.
+* The UI allows uploading multiple images at once
+
+### 4. Additional Images Added:
+
+* Here, we can see the new images added to the dataset
+* The user has an option to move images between test, train and validation sets
+* The user can also edit the images (crop, rotate, etc.)
+* Unwanted images can also be deleted
+
+### 5. Evaluate Models
+
+* Selecting a model displays it's training statistics
+* We can select any of the datasets and run evaluation for any model trained by us
+* Upto 5 evaluations can be run simultaneously, this helps in getting more info about the model in lesser time
+* Once an evaluation is complete, a report is generated that presents the user with class-wise as well as overall metrics of the following kind:
+    + F1-score
+    + Accuracy
+    + Precision
+    + Recall / Sensitivity / True Positive Rate
+    + Specificity / True Negative Rate
+    + Positive Likelihood
+    + Negative Likelihood
+    + Balanced Classification Rate
+    + Balance Error Rate / Half Total Error Rate
+    + Matthew's Correlation
+* The user is also presented with charts for these metrics to aid visualisation
+* Apart from this, the user can see the misclassified images from each of the classes
+* Upon clicking on any of these images, we get Integrated Gradients and also have the option to get Anchors
+* These are useful to make deductions about the model and aid in improvement as mentioned in ```Experiments and Evaluation```
+
+### 6. Improve Model
+
+* This pane has two features: Incremental Learning and Transfer Learning
+* Incremental Learning is to be used when we increase the number of classes and want to upgrade the previous model to incorporate new data without training a new model from scratch
+* Transfer Learning can be used to either replace only the classifier (```freeze weights```) or resume training of a previously trained model
+* As described in ```Experiments and Evaluation```, we suggest running incremental learning for 1 or 2 epoch on the Benchmark model followed by Transfer Learning for about 10 to 15 epochs to get good results in a scalable fashion
+* The user also has the option to enable the use of transforms while training the model (recommended)
+
+### 7. Make Prediction
+
+* We can view the statistics of a trained model by selecting it
+* Upload images to be tested and select a model to make the prediction
+* We get the labels and the confidence of the model while predicting such labels
 
 <br/>
 
@@ -140,7 +232,7 @@ http://localhost:8080/
     + Some images are fine in the sense that they can be correctly classified by a human but the model failed to perform well on those.
 *  This is how we draw the above conclusions using the UI:
     + We can see all the misclassified images and the metrics in the UI itself and thus, can manually identify the reasons of failure as well.
-    + The UI has the ability to find out-of-distribution images and tell the user if such is the case. This helps in dealing with point 1 mentioned above.
+    + The UI has the ability to visualise classes (cluster graphs) and tell the user if such is the case. This helps in dealing with point 1 mentioned above.
     + The prediction values and the image itself is used to generate an anchor which is basically a mask that, if applied to any image will generate the same prediction as it did right now. If the image is classified correctly, the anchor completely captures our region of interest. In misclassified images, we find that the anchor captures irrelevant parts of the image.
     + We also generate Integrated Gradients that help us in identifying why the part of the image that resulted in the recommendation.
 * Once we find the reasons/types of failures, we can think of steps to counter those problems:
@@ -159,22 +251,17 @@ http://localhost:8080/
 
 <br/>
 
-# UI Features and Guide
+# Code Structure
 
-## The UI is divided into 7 segments which are as follows:
-
-### 1. Explore Dataset:
-
-* Used to visualise the entire dataset
-* Can see multiple images of the classes at once, similar to File Explorer
-
-### 2. Add New Classes:
-
-* Used to add new classes
-* Adds new label to the set of existing ones
-
-### 3. Add New Images to Dataset:
-model_193.pth
-Inc: 1 epoch
-
-* Used to add new images to existing classes
+| Directory or File Name 	| Description                                                                         	|
+|------------------------	|-------------------------------------------------------------------------------------	|
+| ```generated/```       	| Stores all the trained models and their metadata.                                   	|
+| ```static/```          	| Stores datasets and static files for the frontend.                                  	|
+| ```app.py```           	| Contains all the code for the app's backend.                                        	|
+| ```benchmark.pth```    	| The weights for Benchmark model.                                                    	|
+| ```heatmap.py```       	| Functions to get Anchors and Integrated Gradients.                                  	|
+| ```model.py```         	| Contains model's architecture.                                                      	|
+| ```segragate.py```     	| Contains code logic for smart segregation.                                          	|
+| ```requirements.txt``` 	| A requirements file without any packages that depend on other packages in the file. 	|
+| ```start.sh```         	| Script to start the app.                                                            	|
+| ```utility.py```       	| Utility functions to upload, apply transforms, get model stats, etc.                	|
