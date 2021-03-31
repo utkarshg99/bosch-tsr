@@ -10,5 +10,9 @@ DatasetTesting/
 
 # *.pth
 datasetdiff.tar.gz
+dataset.tar.gz
+datasetaug.tar.gz
+datasettesting.tar.gz
 datasetultradiff.tar.gz
 Datasetgan
+bfg.jar
