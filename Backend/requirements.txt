@@ -1,0 +1,11 @@
+albumentations
+alibi
+captum
+flask-cors
+flask-pymongo
+gunicorn
+pip-chill
+rq
+seaborn
+spacy-lookups-data
+torchvision

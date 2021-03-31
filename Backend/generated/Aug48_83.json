@@ -1,0 +1,12 @@
+{
+	"method": "Train further",
+    "num_classes": 48,
+    "epochs": 83,
+    "val_acc": 95.17,
+    "val_loss": 0.624,
+    "train_loss": 1.915,
+    "lr": 0.007,
+    "momentum": 0.8,
+    "gamma": 0.9,
+    "l2_norm": 1e-05
+}
